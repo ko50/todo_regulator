@@ -1,5 +1,5 @@
-import 'package:todo_regulator/domain/domain_object/enum/priority.dart';
-import 'package:todo_regulator/domain/domain_object/tag.dart';
+import 'package:todo_regulator/domain/enum/priority.dart';
+import 'package:todo_regulator/domain/model/tag/tag.dart';
 
 class Task {
   final String id;
