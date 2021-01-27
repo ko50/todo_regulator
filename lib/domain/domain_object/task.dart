@@ -17,4 +17,21 @@ class Task {
     this.tags,
     this.priority,
   });
+
+  Task.fromJson(Map<String, dynamic> json)
+      : this.id = json["id"],
+        this.deadline = json["deadline"],
+        this.title = json["title"],
+        this.description = json["description"],
+        this.tags = json["tags"],
+        this.priority = json["priority"];
+
+  Map<String, dynamic> toJson() => {
+        "id": id,
+        "deadline": deadline,
+        "title": title,
+        "description": description,
+        "tags": tags,
+        "priority": priority,
+      };
 }
