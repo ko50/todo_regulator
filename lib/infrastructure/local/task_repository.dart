@@ -22,7 +22,19 @@ class TaskLocalRepository implements TaskRepository {
   }
 
   @override
-  Future<void> delete(String id) async {}
+  Future<void> delete(String id) async {
+    final pref = await SharedPreferences.getInstance();
+    final List<Task> currentTaskList = await fetchAll();
+
+    if (!currentTaskList.any((task) => task.id == id)) return;
+
+    currentTaskList.removeWhere((task) => task.id == id);
+
+    final List<Map<String, dynamic>> jsonList =
+        currentTaskList.map((task) => task.toJson()).toList();
+
+    await pref.setString(prefKey, jsonEncode(jsonList));
+  }
 
   @override
   Future<void> update(Task entity) async {
