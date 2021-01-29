@@ -25,7 +25,21 @@ class TaskLocalRepository implements TaskRepository {
   Future<void> delete(String id) async {}
 
   @override
-  Future<void> save(Task entity) async {}
+  Future<void> update(Task entity) async {
+    final pref = await SharedPreferences.getInstance();
+    final List<Task> currentTaskList = await fetchAll();
+
+    if (!currentTaskList.any((task) => task.id == entity.id)) return;
+
+    final int index =
+        currentTaskList.indexWhere((task) => task.id == entity.id);
+    currentTaskList[index] = entity;
+
+    final List<Map<String, dynamic>> jsonList =
+        currentTaskList.map((task) => task.toJson()).toList();
+
+    await pref.setString(prefKey, jsonEncode(jsonList));
+  }
 
   @override
   Future<List<Task>> fetchAll() async {
