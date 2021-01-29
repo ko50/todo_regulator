@@ -5,7 +5,7 @@ abstract class TagRepository {
 
   Future<void> delete(String id);
 
-  Future<void> save(Tag entity);
+  Future<void> update(Tag entity);
 
   Future<List<Tag>> fetchAll();
 }
