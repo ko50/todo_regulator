@@ -9,7 +9,17 @@ class TaskLocalRepository implements TaskRepository {
   static const String prefKey = "tasks_list";
 
   @override
-  Future<void> create(Task entity) async {}
+  Future<void> create(Task entity) async {
+    final pref = await SharedPreferences.getInstance();
+    final List<Task> currentTaskList = await fetchAll();
+
+    if (currentTaskList.any((task) => task.id == entity.id)) return;
+
+    final List<Map<String, dynamic>> jsonList =
+        [...currentTaskList, entity].map((task) => task.toJson()).toList();
+
+    await pref.setString(prefKey, jsonEncode(jsonList));
+  }
 
   @override
   Future<void> delete(String id) async {}
